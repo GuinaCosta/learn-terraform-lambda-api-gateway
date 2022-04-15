@@ -6,3 +6,9 @@ variable "aws_region" {
   type    = string
   default = "us-east-1"
 }
+
+variable "lambda_name" {
+  default = "learn-lambda"
+  type = string
+  description = "the prefix for the lambda name"
+}
