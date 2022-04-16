@@ -39,6 +39,12 @@ resource "aws_lambda_function" "my_lambda_function" {
   role = aws_iam_role.lambda_exec.arn
 }
 
+resource "aws_lambda_function_url" "my_lambda_function_url" {
+  function_name      = aws_lambda_function.my_lambda_function.function_name
+  authorization_type = "NONE"
+  qualifier = "guinacosta-lambda"
+}
+
 resource "aws_cloudwatch_log_group" "hello_world" {
   name = "/aws/lambda/${aws_lambda_function.my_lambda_function.function_name}"
 
