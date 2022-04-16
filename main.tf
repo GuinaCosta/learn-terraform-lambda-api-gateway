@@ -47,7 +47,7 @@ resource "aws_cloudwatch_log_group" "hello_world" {
 }
 
 resource "aws_iam_role" "lambda_exec" {
-  name = var.lambda_name + "_role"
+  name = "${var.lambda_name}_role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -71,14 +71,14 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 
 // API Gateway
 resource "aws_apigatewayv2_api" "lambda" {
-  name          = var.lambda_name + "serverless_lambda_gw"
+  name          = "${var.lambda_name}serverless_lambda_gw"
   protocol_type = "HTTP"
 }
 
 resource "aws_apigatewayv2_stage" "lambda" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  name        = var.lambda_name + "_stage"
+  name        = "${var.lambda_name}_stage"
   auto_deploy = true
 
   access_log_settings {
