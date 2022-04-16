@@ -40,7 +40,7 @@ resource "aws_lambda_function" "my_lambda_function" {
 }
 
 resource "aws_lambda_function_url" "my_lambda_function_url" {
-  function_name      = aws_lambda_function.my_lambda_function.function_name
+  function_name      = aws_lambda_function.my_lambda_function.arn
   authorization_type = "NONE"
   qualifier = "guinacosta-lambda"
 }
