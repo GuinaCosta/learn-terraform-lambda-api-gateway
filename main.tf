@@ -42,7 +42,6 @@ resource "aws_lambda_function" "my_lambda_function" {
 resource "aws_lambda_function_url" "my_lambda_function_url" {
   function_name      = aws_lambda_function.my_lambda_function.arn
   authorization_type = "NONE"
-  qualifier = "guinacosta-lambda"
 }
 
 resource "aws_cloudwatch_log_group" "hello_world" {
