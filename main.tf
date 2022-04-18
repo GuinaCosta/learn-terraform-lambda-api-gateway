@@ -12,8 +12,8 @@ resource "aws_s3_bucket" "lambda_bucket" {
 data "archive_file" "lambda_zip_file" {
   type = "zip"
 
-  source_dir  = "${path.module}/hello-world"
-  output_path = "${path.module}/hello-world.zip"
+  source_dir  = "${path.module}/build"
+  output_path = "${path.module}/build.zip"
 }
 
 resource "aws_s3_object" "lambda_hello_world" {
