@@ -19,3 +19,8 @@ variable "lambda_handler" {
   type = string
   description = "define lambda handler function"
 }
+
+variable "lambda_environment_variables" {
+  type = map(string)
+  description = "(required)lambda environment variables"
+}

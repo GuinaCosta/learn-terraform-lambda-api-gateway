@@ -53,10 +53,7 @@ resource "aws_lambda_function" "my_lambda_function" {
   layers = [aws_lambda_layer_version.my_lambda_custom_axios_layer.arn]
 
   environment {
-    variables = {
-      SECRET_MANAGER_ARN = "arn:FAKE",
-      SO_API_URL = "https://google.com"
-    }
+    variables = var.lambda_environment_variables
   }
 
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
