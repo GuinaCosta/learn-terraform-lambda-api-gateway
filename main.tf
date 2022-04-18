@@ -103,7 +103,11 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 
 resource "aws_secretsmanager_secret" "my_lambda_secrets" {
   name = "${var.lambda_name}-secret"
+}
 
+resource "aws_secretsmanager_secret_version" "my_lambda_secret_value" {
+  secret_id = aws_secretsmanager_secret.my_lambda_secrets.id
+  secret_string = "{ 'soApiToken': 'jwt.sss.xxx' }"
 }
 
 resource "aws_secretsmanager_secret_policy" "my_lambda_secrets_policy" {
