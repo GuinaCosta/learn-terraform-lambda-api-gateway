@@ -53,7 +53,12 @@ resource "aws_lambda_function" "my_lambda_function" {
   layers = [aws_lambda_layer_version.my_lambda_custom_axios_layer.arn]
 
   environment {
-    variables = var.lambda_environment_variables
+    variables = merge(
+      var.lambda_environment_variables,
+      {
+        "SECRETS_MANAGER_NAME": aws_secretsmanager_secret.my_lambda_secrets.name
+      }
+    )
   }
 
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
@@ -87,6 +92,7 @@ resource "aws_iam_role" "lambda_exec" {
     }
     ]
   })
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy" {
@@ -94,6 +100,33 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+
+resource "aws_secretsmanager_secret" "my_lambda_secrets" {
+  name = "${var.lambda_name}-secret"
+
+}
+
+resource "aws_secretsmanager_secret_policy" "my_lambda_secrets_policy" {
+  secret_arn = aws_secretsmanager_secret.my_lambda_secrets.arn
+
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EnableAnotherAWSAccountToReadTheSecret",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:root"
+      },
+      "Action": "${aws_iam_role.lambda_exec.arn}",
+      "Resource": "*"
+    }
+  ]
+}
+POLICY
+}
 
 // API Gateway
 resource "aws_apigatewayv2_api" "lambda" {
