@@ -33,6 +33,14 @@ resource "aws_lambda_function" "my_lambda_function" {
 
   runtime = "nodejs14.x"
   handler = "handlers/lambdaHandler.lambdaHandler"
+  layers = ["arn:aws:lambda:sa-east-1:775514532142:layer:axios-layer:1"]
+
+  environment {
+    variables = {
+      SECRET_MANAGER_ARN = "arn:FAKE",
+      SO_API_URL = "https://google.com"
+    }
+  }
 
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
 
