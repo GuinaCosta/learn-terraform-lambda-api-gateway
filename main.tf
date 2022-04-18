@@ -34,7 +34,7 @@ data "archive_file" "lambda_layer_zip_file" {
 
 resource "aws_lambda_layer_version" "my_lambda_custom_axios_layer" {
   layer_name = "axios-lambda-layer"
-  filename = data.archive_file.lambda_zip_file.output_path
+  filename = data.archive_file.lambda_layer_zip_file.output_path
   compatible_runtimes = ["nodejs14.x"]
 
   description = "Add axios dependency as a Node.js 14.x Layer"
