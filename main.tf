@@ -19,10 +19,27 @@ data "archive_file" "lambda_zip_file" {
 resource "aws_s3_object" "lambda_hello_world" {
   bucket = aws_s3_bucket.lambda_bucket.id
 
-  key    = "hello-world.zip"
+  key    = "lambda.zip"
   source = data.archive_file.lambda_zip_file.output_path
 
   etag = filemd5(data.archive_file.lambda_zip_file.output_path)
+}
+
+data "archive_file" "lambda_layer_zip_file" {
+  type = "zip"
+
+  source_dir  = "${path.module}/lambda-layers/axios/nodejs"
+  output_path = "${path.module}/axios.zip"
+}
+
+resource "aws_lambda_layer_version" "my_lambda_custom_axios_layer" {
+  layer_name = "axios-lambda-layer"
+  filename = data.archive_file.lambda_zip_file.output_path
+  compatible_runtimes = ["nodejs14.x"]
+
+  description = "Add axios dependency as a Node.js 14.x Layer"
+
+  source_code_hash = data.archive_file.lambda_layer_zip_file.output_base64sha256
 }
 
 resource "aws_lambda_function" "my_lambda_function" {
@@ -32,8 +49,8 @@ resource "aws_lambda_function" "my_lambda_function" {
   s3_key    = aws_s3_object.lambda_hello_world.key
 
   runtime = "nodejs14.x"
-  handler = "handlers/lambdaHandler.lambdaHandler"
-  layers = ["arn:aws:lambda:sa-east-1:775514532142:layer:axios-layer:1"]
+  handler = var.lambda_handler
+  layers = [aws_lambda_layer_version.my_lambda_custom_axios_layer.arn]
 
   environment {
     variables = {

@@ -12,3 +12,10 @@ variable "lambda_name" {
   type = string
   description = "the prefix for the lambda name"
 }
+
+#handlers/lambdaHandler.lambdaHandler
+variable "lambda_handler" {
+  default = "app.handler"
+  type = string
+  description = "define lambda handler function"
+}
