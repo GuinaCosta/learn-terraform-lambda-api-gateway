@@ -24,3 +24,10 @@ variable "lambda_environment_variables" {
   type = map(string)
   description = "(required)lambda environment variables"
 }
+
+
+variable "secret_value" {
+  default = "{ 'soApiToken': 'jwt.sss.xxx' }"
+  type = string
+  description = "secret object to add into secrets manager"
+}

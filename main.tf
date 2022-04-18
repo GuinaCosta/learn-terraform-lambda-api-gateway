@@ -107,7 +107,7 @@ resource "aws_secretsmanager_secret" "my_lambda_secrets" {
 
 resource "aws_secretsmanager_secret_version" "my_lambda_secret_value" {
   secret_id = aws_secretsmanager_secret.my_lambda_secrets.id
-  secret_string = "{ 'soApiToken': 'jwt.sss.xxx' }"
+  secret_string = var.secret_value
 }
 
 resource "aws_secretsmanager_secret_policy" "my_lambda_secrets_policy" {
