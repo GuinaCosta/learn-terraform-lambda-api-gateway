@@ -32,7 +32,7 @@ resource "aws_lambda_function" "my_lambda_function" {
   s3_key    = aws_s3_object.lambda_hello_world.key
 
   runtime = "nodejs14.x"
-  handler = "hello.handler"
+  handler = "handlers/lambdaHandler.lambdaHandler"
 
   source_code_hash = data.archive_file.lambda_zip_file.output_base64sha256
 
