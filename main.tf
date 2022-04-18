@@ -118,9 +118,9 @@ resource "aws_secretsmanager_secret_policy" "my_lambda_secrets_policy" {
       "Sid": "EnableAnotherAWSAccountToReadTheSecret",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::123456789012:root"
+        "AWS": "${aws_iam_role.lambda_exec.arn}"
       },
-      "Action": "${aws_iam_role.lambda_exec.arn}",
+      "Action": "secretsmanager:GetSecretValue",
       "Resource": "*"
     }
   ]
