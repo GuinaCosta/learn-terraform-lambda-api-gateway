@@ -34,5 +34,8 @@ override.tf.json
 terraform.rc
 hello-world.zip
 response.json
-
+state
+*.zip
 .idea
+.terraform
+.terraform.lock.hcl

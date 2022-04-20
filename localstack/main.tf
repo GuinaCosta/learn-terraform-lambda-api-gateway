@@ -13,7 +13,7 @@ data "archive_file" "lambda_zip_file" {
   type = "zip"
 
   source_dir  = "../${path.module}/hello-world"
-  output_path = "${path.module}/lambda.zip"
+  output_path = "${path.module}/hello.zip"
 }
 
 resource "aws_s3_object" "lambda_hello_world" {
@@ -187,13 +187,13 @@ resource "aws_api_gateway_rest_api" "lambda_api_gw" {
 
 resource "aws_api_gateway_resource" "lambda_api_gw_resource" {
   parent_id   = aws_api_gateway_rest_api.lambda_api_gw.root_resource_id
-  path_part   = "otl"
+  path_part   = "hello-world"
   rest_api_id = aws_api_gateway_rest_api.lambda_api_gw.id
 }
 
 resource "aws_api_gateway_method" "lambda_api_gw_resource_method" {
   authorization = "NONE"
-  http_method   = "POST"
+  http_method   = "GET"
   resource_id   = aws_api_gateway_resource.lambda_api_gw_resource.id
   rest_api_id   = aws_api_gateway_rest_api.lambda_api_gw.id
 }
