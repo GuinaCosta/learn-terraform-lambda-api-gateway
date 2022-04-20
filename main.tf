@@ -134,7 +134,7 @@ resource "aws_secretsmanager_secret_policy" "my_lambda_secrets_policy" {
 POLICY
 }
 
-/* API Gateway
+// API Gateway
 resource "aws_apigatewayv2_api" "lambda" {
   name          = "${var.lambda_name}serverless_lambda_gw"
   protocol_type = "HTTP"
@@ -179,7 +179,6 @@ resource "aws_apigatewayv2_route" "my_lambda" {
   route_key = "GET /hello"
   target    = "integrations/${aws_apigatewayv2_integration.my_lambda.id}"
 }
-*/
 
 resource "aws_api_gateway_rest_api" "lambda_api_gw" {
   name = "example"
